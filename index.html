@@ -5,146 +5,39 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Guitar Tabber</title>
+  <title>TabFlow</title>
+  <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 20px;
-      background-color: #f5f5f5;
-    }
-
-
-    .app-container {
-      
-      margin: 0 auto;
-      background: white;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-      border-radius: 4px;
-      overflow: hidden;
-    }
-
-    .toolbar {
-      padding: 15px 20px;
-      background: #2c3e50;
-      color: white;
-      display: flex;
-      gap: 15px;
-      align-items: center;
-      flex-wrap: wrap;
-    }
-
-    .toolbar h1 {
-      margin: 0;
-      font-size: 24px;
-      color: white;
-    }
-
-    .toolbar-group {
-      display: flex;
-      gap: 10px;
-      align-items: center;
-    }
-
-    .toolbar label {
-      font-weight: bold;
-    }
-
-    .toolbar select,
-    .toolbar button {
-      padding: 5px 10px;
-      border: none;
-      border-radius: 4px;
-      background: white;
-      cursor: pointer;
-    }
-
-    .toolbar button {
-      background: #3498db;
-      color: white;
-      font-weight: bold;
-    }
-
-    .toolbar button:hover {
-      background: #2980b9;
-    }
-
+    /* Custom styles for tab editor precision and print */
     .tab-editor {
-      padding: 1em;
-      min-height: 500px;
-      max-width: 8.5in;
-      font-family: 'Courier New', Courier, monospace;
       font-size: 14pt;
       line-height: 1.2;
       white-space: pre;
       overflow-wrap: break-word;
-      margin: 0 auto;
-    
-    }
-
-    .lyrics-line {
-      color: #2c3e50;
-      margin-bottom: 5px;
-      min-height: 1.2em;
-      cursor: text;
-    }
-
-    .chord-line {
-      color: #e74c3c;
-      font-weight: bold;
-      margin-bottom: 5px;
-      min-height: 1.2em;
-      cursor: text;
-    }
-
-    .tab-line {
-      color: #27ae60;
-      margin-bottom: 2px;
-      cursor: text;
-      min-height: 1.2em;
-    }
-
-    .string-label {
-      color: #7f8c8d;
-      margin-right: 5px;
     }
 
     .editable-char {
-      background: #f39c12;
-      color: white;
+      background: #f39c12 !important;
+      color: white !important;
       border-radius: 2px;
-    }
-
-    .tab-section {
-      margin-bottom: 20px;
     }
 
     /* Print Styles */
     @media print {
       body {
-        margin: 0;
-        padding: 0;
-        background: white;
+        margin: 0 !important;
+        padding: 0 !important;
+        background: white !important;
       }
 
       .app-container {
-        box-shadow: none;
-        border-radius: 0;
-        max-width: none;
+        box-shadow: none !important;
+        border-radius: 0 !important;
+        max-width: none !important;
       }
 
-      .toolbar {
-        display: none !important;
-      }
-
-      .tab-editor {
-        /* padding: 1in; use default padding for print */
-      }
-    }
-
-    @media screen {
       .no-print {
-        display: block;
+        display: none !important;
       }
     }
   </style>
@@ -152,15 +45,17 @@
 
 </head>
 
-<body>
-  <div class="app-container">
-    <div class="toolbar no-print">
-      <h1>TabFlow</h1>
+<body class="font-sans m-0 p-5 bg-gray-100">
+  <div class="app-container mx-auto bg-white shadow-lg rounded overflow-hidden">
+    <div
+      class="toolbar no-print p-4 px-5 bg-slate-700 text-white flex gap-4 items-center flex-wrap">
+      <h1 class="m-0 text-2xl text-white">TabFlow</h1>
 
 
-      <div class="toolbar-group">
-        <label for="stringCount">Strings:</label>
-        <select id="stringCount">
+      <div class="toolbar-group flex gap-2.5 items-center">
+        <label for="stringCount" class="font-bold">Strings:</label>
+        <select id="stringCount"
+          class="py-1 px-2.5 border-none rounded bg-white cursor-pointer text-black">
           <option value="4">4 (Bass)</option>
           <option value="5">5 (Bass)</option>
           <option value="6" selected>6 (Guitar)</option>
@@ -169,9 +64,10 @@
         </select>
       </div>
 
-      <div class="toolbar-group">
-        <label for="fontSize">Font Size:</label>
-        <select id="fontSize">
+      <div class="toolbar-group flex gap-2.5 items-center">
+        <label for="fontSize" class="font-bold">Font Size:</label>
+        <select id="fontSize"
+          class="py-1 px-2.5 border-none rounded bg-white cursor-pointer text-black">
           <option value="10">10pt</option>
           <option value="12">12pt</option>
           <option value="14" selected>14pt</option>
@@ -180,19 +76,26 @@
         </select>
       </div>
 
-      <div class="toolbar-group">
-        <button id="saveTab">Save</button>
-        <button id="loadTab">Load</button>
-        <button id="printTab">Print</button>
-        <button id="newSection">New Section</button>
+      <div class="toolbar-group flex gap-2.5 items-center">
+        <button id="saveTab"
+          class="py-1 px-2.5 border-none rounded bg-blue-500 text-white font-bold cursor-pointer hover:bg-blue-600">Save</button>
+        <button id="loadTab"
+          class="py-1 px-2.5 border-none rounded bg-blue-500 text-white font-bold cursor-pointer hover:bg-blue-600">Load</button>
+        <button id="printTab"
+          class="py-1 px-2.5 border-none rounded bg-blue-500 text-white font-bold cursor-pointer hover:bg-blue-600">Print</button>
+        <button id="newSection"
+          class="py-1 px-2.5 border-none rounded bg-blue-500 text-white font-bold cursor-pointer hover:bg-blue-600">New
+          Section</button>
       </div>
 
-      <div class="toolbar-group">
-        <small style="color: #bdc3c7;">Navigate: ↑↓←→ | Exit: Esc</small>
+      <div class="toolbar-group flex gap-2.5 items-center">
+        <small class="text-gray-300">Navigate: ↑↓←→ | Exit: Esc</small>
       </div>
     </div>
 
-    <div class="tab-editor" id="tabEditor">
+    <div
+      class="tab-editor p-4 min-h-[500px] max-w-[8.5in] font-mono break-words mx-auto"
+      id="tabEditor">
       <!-- Tab content will be generated here -->
     </div>
   </div>
@@ -238,7 +141,6 @@
 
         // Keyboard shortcuts
         document.addEventListener('keydown', (e) => {
-
           // Navigation keys
           if (this.editMode && this.selectedChar) {
             let handled = false;
@@ -324,20 +226,20 @@
 
       createTabSection(lyrics = '', chords = '') {
         const tuning = this.standardTunings[this.stringCount];
-        let html = '<div class="tab-section">';
+        let html = '<div class="mb-5">';
 
         // Lyrics line
-        html += `<div class="lyrics-line" contenteditable="true">${lyrics}</div>`;
+        html += `<div class="text-slate-700 mb-1 min-h-[1.2em] cursor-text" contenteditable="true">${lyrics}</div>`;
 
         // Chords line  
-        html += `<div class="chord-line" contenteditable="true">${chords}</div>`;
+        html += `<div class="text-red-600 font-bold mb-1 min-h-[1.2em] cursor-text" contenteditable="true">${chords}</div>`;
 
         // Tab lines
         tuning.forEach((note, index) => {
           const reversedIndex = tuning.length - 1 - index; // Reverse for standard display
           const displayNote = tuning[reversedIndex];
-          html += `<div class="tab-line">`;
-          html += `<span class="string-label">${displayNote}|</span>`;
+          html += `<div class="text-green-600 mb-0.5 cursor-text min-h-[1.2em]">`;
+          html += `<span class="text-gray-500 mr-1">${displayNote}|</span>`;
 
           // Generate dashes for the tab line (about 60 characters to fit letter size)
           for (let i = 0; i < 60; i++) {
@@ -386,7 +288,7 @@
         if (currentIndex === -1) return;
 
         let targetIndex = currentIndex;
-        const tabLines = document.querySelectorAll('.tab-line');
+        const tabLines = document.querySelectorAll('.text-green-600');
         const charsPerLine = Math.floor(allTabChars.length / tabLines.length);
 
         switch (direction) {
