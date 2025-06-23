@@ -10,7 +10,7 @@
   <style>
     /* Custom styles for tab editor precision and print */
     .tab-editor {
-      font-size: 14pt;
+      font-size: 12pt;
       line-height: 1.2;
       white-space: pre;
       overflow-wrap: break-word;
@@ -69,8 +69,8 @@
         <select id="fontSize"
           class="py-1 px-2.5 border-none rounded bg-white cursor-pointer text-black">
           <option value="10">10pt</option>
-          <option value="12">12pt</option>
-          <option value="14" selected>14pt</option>
+          <option value="12" selected>12pt</option>
+          <option value="14">14pt</option>
           <option value="16">16pt</option>
           <option value="18">18pt</option>
         </select>
@@ -104,7 +104,7 @@
     class GuitarTabber {
       constructor() {
         this.stringCount = 6;
-        this.fontSize = 14;
+        this.fontSize = 12;
         this.selectedChar = null;
         this.editMode = false;
         this.tabs = {}; // In-memory storage (replace with localStorage later)
