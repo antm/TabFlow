@@ -212,7 +212,7 @@
         const editor = document.getElementById('tabEditor');
         const tuning = this.standardTunings[this.stringCount];
 
-        editor.innerHTML = this.createTabSection('Verse 1: Enter your lyrics here', 'C        G        Am       F');
+        editor.innerHTML = this.createTabSection('Verse 1: Enter your lyrics here', '   C        G        Am       F');
 
         // Auto-select first tab character for immediate keyboard navigation
         setTimeout(() => {
@@ -232,7 +232,7 @@
         html += `<div class="text-slate-700 mb-1 min-h-[1.2em] cursor-text" contenteditable="true">${lyrics}</div>`;
 
         // Chords line  
-        html += `<div class="text-red-600 font-bold mb-1 min-h-[1.2em] cursor-text" contenteditable="true">${chords}</div>`;
+        html += `<div class="text-red-600 font mb-1 min-h-[1.2em] cursor-text" contenteditable="true">${chords}</div>`;
 
         // Tab lines
         tuning.forEach((note, index) => {
