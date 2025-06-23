@@ -232,10 +232,6 @@
             
             // Keyboard shortcuts
             document.addEventListener('keydown', (e) => {
-                if ((e.ctrlKey || e.metaKey) && e.key === '|') {
-                    e.preventDefault();
-                    this.addMeasureBar();
-                }
                 
                 // Navigation keys
                 if (this.editMode && this.selectedChar) {
@@ -404,30 +400,6 @@
             
             if (targetIndex !== currentIndex && allTabChars[targetIndex]) {
                 this.selectCharacter(allTabChars[targetIndex]);
-            }
-        }
-        
-        addMeasureBar() {
-            if (this.selectedChar) {
-                // Find the parent tab line
-                const tabLine = this.selectedChar.closest('.tab-line');
-                if (tabLine) {
-                    // Insert pipe after selected character
-                    const nextSibling = this.selectedChar.nextSibling;
-                    const pipe = document.createElement('span');
-                    pipe.textContent = '|';
-                    pipe.style.color = '#e74c3c';
-                    pipe.style.fontWeight = 'bold';
-                    
-                    if (nextSibling) {
-                        tabLine.insertBefore(pipe, nextSibling);
-                    } else {
-                        tabLine.appendChild(pipe);
-                    }
-                    
-                    this.selectedChar.classList.remove('editable-char');
-                    this.selectedChar = null;
-                }
             }
         }
         
