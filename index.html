@@ -182,7 +182,7 @@
         </div>
         
         <div class="toolbar-group">
-            <small style="color: #bdc3c7;">Navigate: ↑↓←→ or WASD | Measure: Ctrl+|</small>
+            <small style="color: #bdc3c7;">Navigate: ↑↓←→ or WASD | Measure: Ctrl+| | Exit: Esc</small>
         </div>
     </div>
     
@@ -197,6 +197,7 @@
             this.stringCount = 6;
             this.fontSize = 14;
             this.selectedChar = null;
+            this.editMode = false;
             this.tabs = {}; // In-memory storage (replace with localStorage later)
             this.currentTabId = 'default';
             
@@ -237,7 +238,7 @@
                 }
                 
                 // Navigation keys
-                if (this.selectedChar) {
+                if (this.editMode && this.selectedChar) {
                     let handled = false;
                     
                     switch(e.key.toLowerCase()) {
@@ -273,14 +274,32 @@
             document.getElementById('tabEditor').addEventListener('click', (e) => {
                 if (e.target.classList.contains('tab-char')) {
                     this.selectCharacter(e.target);
+                    this.editMode = true;
+                } else {
+                    // Click outside tab characters exits edit mode
+                    this.exitEditMode();
+                }
+            });
+            
+            // Click outside editor exits edit mode
+            document.addEventListener('click', (e) => {
+                if (!document.getElementById('tabEditor').contains(e.target)) {
+                    this.exitEditMode();
                 }
             });
             
             // Character input
             document.addEventListener('keypress', (e) => {
-                if (this.selectedChar && e.key.length === 1) {
+                if (this.editMode && this.selectedChar && e.key.length === 1) {
                     e.preventDefault();
                     this.replaceSelectedChar(e.key);
+                }
+            });
+            
+            // Escape key exits edit mode
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    this.exitEditMode();
                 }
             });
         }
@@ -296,6 +315,7 @@
                 const firstTabChar = editor.querySelector('.tab-char');
                 if (firstTabChar) {
                     this.selectCharacter(firstTabChar);
+                    this.editMode = true;
                 }
             }, 100);
         }
@@ -340,11 +360,18 @@
             charElement.classList.add('editable-char');
         }
         
+        exitEditMode() {
+            if (this.selectedChar) {
+                this.selectedChar.classList.remove('editable-char');
+                this.selectedChar = null;
+            }
+            this.editMode = false;
+        }
+        
         replaceSelectedChar(newChar) {
             if (this.selectedChar) {
                 this.selectedChar.textContent = newChar;
-                this.selectedChar.classList.remove('editable-char');
-                this.selectedChar = null;
+                // Keep character selected and stay in edit mode
             }
         }
         
