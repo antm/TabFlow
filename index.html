@@ -1,445 +1,450 @@
 <!DOCTYPE html>
 
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Guitar Tabber</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 20px;
-            background-color: #f5f5f5;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Guitar Tabber</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background-color: #f5f5f5;
+    }
 
 
     .app-container {
-        max-width: 8.5in;
-        margin: 0 auto;
-        background: white;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        border-radius: 8px;
-        overflow: hidden;
+      max-width: 8.5in;
+      margin: 0 auto;
+      background: white;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      border-radius: 4px;
+      overflow: hidden;
     }
 
     .toolbar {
-        padding: 15px 20px;
-        background: #2c3e50;
-        color: white;
-        display: flex;
-        gap: 15px;
-        align-items: center;
-        flex-wrap: wrap;
+      padding: 15px 20px;
+      background: #2c3e50;
+      color: white;
+      display: flex;
+      gap: 15px;
+      align-items: center;
+      flex-wrap: wrap;
     }
 
     .toolbar h1 {
-        margin: 0;
-        font-size: 24px;
-        color: white;
+      margin: 0;
+      font-size: 24px;
+      color: white;
     }
 
     .toolbar-group {
-        display: flex;
-        gap: 10px;
-        align-items: center;
+      display: flex;
+      gap: 10px;
+      align-items: center;
     }
 
     .toolbar label {
-        font-weight: bold;
+      font-weight: bold;
     }
 
-    .toolbar select, .toolbar button {
-        padding: 5px 10px;
-        border: none;
-        border-radius: 4px;
-        background: white;
-        cursor: pointer;
+    .toolbar select,
+    .toolbar button {
+      padding: 5px 10px;
+      border: none;
+      border-radius: 4px;
+      background: white;
+      cursor: pointer;
     }
 
     .toolbar button {
-        background: #3498db;
-        color: white;
-        font-weight: bold;
+      background: #3498db;
+      color: white;
+      font-weight: bold;
     }
 
     .toolbar button:hover {
-        background: #2980b9;
+      background: #2980b9;
     }
 
     .tab-editor {
-        padding: 1in;
-        min-height: 500px;
-        font-family: 'Courier New', Courier, monospace;
-        font-size: 14pt;
-        line-height: 1.2;
-        white-space: pre;
-        overflow-wrap: break-word;
+      padding: 1in;
+      min-height: 500px;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 14pt;
+      line-height: 1.2;
+      white-space: pre;
+      overflow-wrap: break-word;
     }
 
     .lyrics-line {
-        color: #2c3e50;
-        margin-bottom: 5px;
-        min-height: 1.2em;
-        cursor: text;
+      color: #2c3e50;
+      margin-bottom: 5px;
+      min-height: 1.2em;
+      cursor: text;
     }
 
     .chord-line {
-        color: #e74c3c;
-        font-weight: bold;
-        margin-bottom: 5px;
-        min-height: 1.2em;
-        cursor: text;
+      color: #e74c3c;
+      font-weight: bold;
+      margin-bottom: 5px;
+      min-height: 1.2em;
+      cursor: text;
     }
 
     .tab-line {
-        color: #27ae60;
-        margin-bottom: 2px;
-        cursor: text;
-        min-height: 1.2em;
+      color: #27ae60;
+      margin-bottom: 2px;
+      cursor: text;
+      min-height: 1.2em;
     }
 
     .string-label {
-        color: #7f8c8d;
-        margin-right: 5px;
+      color: #7f8c8d;
+      margin-right: 5px;
     }
 
     .editable-char {
-        background: #f39c12;
-        color: white;
-        border-radius: 2px;
+      background: #f39c12;
+      color: white;
+      border-radius: 2px;
     }
 
     .tab-section {
-        margin-bottom: 20px;
+      margin-bottom: 20px;
     }
 
     /* Print Styles */
     @media print {
-        body {
-            margin: 0;
-            padding: 0;
-            background: white;
-        }
-        
-        .app-container {
-            box-shadow: none;
-            border-radius: 0;
-            max-width: none;
-        }
-        
-        .toolbar {
-            display: none !important;
-        }
-        
-        .tab-editor {
-            padding: 1in;
-        }
+      body {
+        margin: 0;
+        padding: 0;
+        background: white;
+      }
+
+      .app-container {
+        box-shadow: none;
+        border-radius: 0;
+        max-width: none;
+      }
+
+      .toolbar {
+        display: none !important;
+      }
+
+      .tab-editor {
+        padding: 1in;
+      }
     }
 
     @media screen {
-        .no-print {
-            display: block;
-        }
+      .no-print {
+        display: block;
+      }
     }
-</style>
+  </style>
 
 
 </head>
+
 <body>
-    <div class="app-container">
-        <div class="toolbar no-print">
-            <h1>Guitar Tabber</h1>
+  <div class="app-container">
+    <div class="toolbar no-print">
+      <h1>Guitar Tabber</h1>
 
 
-        <div class="toolbar-group">
-            <label for="stringCount">Strings:</label>
-            <select id="stringCount">
-                <option value="4">4 (Bass)</option>
-                <option value="5">5 (Bass)</option>
-                <option value="6" selected>6 (Guitar)</option>
-                <option value="7">7 (Guitar)</option>
-                <option value="8">8 (Guitar)</option>
-            </select>
-        </div>
-        
-        <div class="toolbar-group">
-            <label for="fontSize">Font Size:</label>
-            <select id="fontSize">
-                <option value="10">10pt</option>
-                <option value="12">12pt</option>
-                <option value="14" selected>14pt</option>
-                <option value="16">16pt</option>
-                <option value="18">18pt</option>
-            </select>
-        </div>
-        
-        <div class="toolbar-group">
-            <button id="saveTab">Save</button>
-            <button id="loadTab">Load</button>
-            <button id="printTab">Print</button>
-            <button id="newSection">New Section</button>
-        </div>
-        
-        <div class="toolbar-group">
-            <small style="color: #bdc3c7;">Navigate: ↑↓←→ or WASD | Measure: Ctrl+| | Exit: Esc</small>
-        </div>
+      <div class="toolbar-group">
+        <label for="stringCount">Strings:</label>
+        <select id="stringCount">
+          <option value="4">4 (Bass)</option>
+          <option value="5">5 (Bass)</option>
+          <option value="6" selected>6 (Guitar)</option>
+          <option value="7">7 (Guitar)</option>
+          <option value="8">8 (Guitar)</option>
+        </select>
+      </div>
+
+      <div class="toolbar-group">
+        <label for="fontSize">Font Size:</label>
+        <select id="fontSize">
+          <option value="10">10pt</option>
+          <option value="12">12pt</option>
+          <option value="14" selected>14pt</option>
+          <option value="16">16pt</option>
+          <option value="18">18pt</option>
+        </select>
+      </div>
+
+      <div class="toolbar-group">
+        <button id="saveTab">Save</button>
+        <button id="loadTab">Load</button>
+        <button id="printTab">Print</button>
+        <button id="newSection">New Section</button>
+      </div>
+
+      <div class="toolbar-group">
+        <small style="color: #bdc3c7;">Navigate: ↑↓←→ or WASD | Measure: Ctrl+|
+          | Exit: Esc</small>
+      </div>
     </div>
-    
+
     <div class="tab-editor" id="tabEditor">
-        <!-- Tab content will be generated here -->
+      <!-- Tab content will be generated here -->
     </div>
-</div>
+  </div>
 
-<script>
+  <script>
     class GuitarTabber {
-        constructor() {
-            this.stringCount = 6;
-            this.fontSize = 14;
-            this.selectedChar = null;
-            this.editMode = false;
-            this.tabs = {}; // In-memory storage (replace with localStorage later)
-            this.currentTabId = 'default';
-            
-            this.standardTunings = {
-                4: ['G', 'D', 'A', 'E'],
-                5: ['B', 'E', 'A', 'D', 'G'],
-                6: ['E', 'A', 'D', 'G', 'B', 'E'],
-                7: ['B', 'E', 'A', 'D', 'G', 'B', 'E'],
-                8: ['F#', 'B', 'E', 'A', 'D', 'G', 'B', 'E']
-            };
-            
-            this.init();
-            this.generateDefaultTab();
-        }
-        
-        init() {
-            // Event listeners
-            document.getElementById('stringCount').addEventListener('change', (e) => {
-                this.stringCount = parseInt(e.target.value);
-                this.generateDefaultTab();
-            });
-            
-            document.getElementById('fontSize').addEventListener('change', (e) => {
-                this.fontSize = parseInt(e.target.value);
-                document.getElementById('tabEditor').style.fontSize = e.target.value + 'pt';
-            });
-            
-            document.getElementById('saveTab').addEventListener('click', () => this.saveTab());
-            document.getElementById('loadTab').addEventListener('click', () => this.loadTab());
-            document.getElementById('printTab').addEventListener('click', () => window.print());
-            document.getElementById('newSection').addEventListener('click', () => this.addNewSection());
-            
-            // Keyboard shortcuts
-            document.addEventListener('keydown', (e) => {
-                
-                // Navigation keys
-                if (this.editMode && this.selectedChar) {
-                    let handled = false;
-                    
-                    switch(e.key.toLowerCase()) {
-                        case 'arrowleft':
-                        case 'a':
-                            this.navigate('left');
-                            handled = true;
-                            break;
-                        case 'arrowright': 
-                        case 'd':
-                            this.navigate('right');
-                            handled = true;
-                            break;
-                        case 'arrowup':
-                        case 'w':
-                            this.navigate('up');
-                            handled = true;
-                            break;
-                        case 'arrowdown':
-                        case 's':
-                            this.navigate('down');
-                            handled = true;
-                            break;
-                    }
-                    
-                    if (handled) {
-                        e.preventDefault();
-                    }
-                }
-            });
-            
-            // Click handling for editable characters
-            document.getElementById('tabEditor').addEventListener('click', (e) => {
-                if (e.target.classList.contains('tab-char')) {
-                    this.selectCharacter(e.target);
-                    this.editMode = true;
-                } else {
-                    // Click outside tab characters exits edit mode
-                    this.exitEditMode();
-                }
-            });
-            
-            // Click outside editor exits edit mode
-            document.addEventListener('click', (e) => {
-                if (!document.getElementById('tabEditor').contains(e.target)) {
-                    this.exitEditMode();
-                }
-            });
-            
-            // Character input
-            document.addEventListener('keypress', (e) => {
-                if (this.editMode && this.selectedChar && e.key.length === 1) {
-                    e.preventDefault();
-                    this.replaceSelectedChar(e.key);
-                }
-            });
-            
-            // Escape key exits edit mode
-            document.addEventListener('keydown', (e) => {
-                if (e.key === 'Escape') {
-                    this.exitEditMode();
-                }
-            });
-        }
-        
-        generateDefaultTab() {
-            const editor = document.getElementById('tabEditor');
-            const tuning = this.standardTunings[this.stringCount];
-            
-            editor.innerHTML = this.createTabSection('Verse 1: Enter your lyrics here', 'C        G        Am       F');
-            
-            // Auto-select first tab character for immediate keyboard navigation
-            setTimeout(() => {
-                const firstTabChar = editor.querySelector('.tab-char');
-                if (firstTabChar) {
-                    this.selectCharacter(firstTabChar);
-                    this.editMode = true;
-                }
-            }, 100);
-        }
-        
-        createTabSection(lyrics = '', chords = '') {
-            const tuning = this.standardTunings[this.stringCount];
-            let html = '<div class="tab-section">';
-            
-            // Lyrics line
-            html += `<div class="lyrics-line" contenteditable="true">${lyrics}</div>`;
-            
-            // Chords line  
-            html += `<div class="chord-line" contenteditable="true">${chords}</div>`;
-            
-            // Tab lines
-            tuning.forEach((note, index) => {
-                const reversedIndex = tuning.length - 1 - index; // Reverse for standard display
-                const displayNote = tuning[reversedIndex];
-                html += `<div class="tab-line">`;
-                html += `<span class="string-label">${displayNote}|</span>`;
-                
-                // Generate dashes for the tab line (about 60 characters to fit letter size)
-                for (let i = 0; i < 60; i++) {
-                    html += `<span class="tab-char">-</span>`;
-                }
-                html += `|`;
-                html += `</div>`;
-            });
-            
-            html += '</div>';
-            return html;
-        }
-        
-        selectCharacter(charElement) {
-            // Clear previous selection
-            if (this.selectedChar) {
-                this.selectedChar.classList.remove('editable-char');
+      constructor() {
+        this.stringCount = 6;
+        this.fontSize = 14;
+        this.selectedChar = null;
+        this.editMode = false;
+        this.tabs = {}; // In-memory storage (replace with localStorage later)
+        this.currentTabId = 'default';
+
+        this.standardTunings = {
+          4: ['G', 'D', 'A', 'E'],
+          5: ['B', 'E', 'A', 'D', 'G'],
+          6: ['E', 'A', 'D', 'G', 'B', 'E'],
+          7: ['B', 'E', 'A', 'D', 'G', 'B', 'E'],
+          8: ['F#', 'B', 'E', 'A', 'D', 'G', 'B', 'E']
+        };
+
+        this.init();
+        this.generateDefaultTab();
+      }
+
+      init() {
+        // Event listeners
+        document.getElementById('stringCount').addEventListener('change', (e) => {
+          this.stringCount = parseInt(e.target.value);
+          this.generateDefaultTab();
+        });
+
+        document.getElementById('fontSize').addEventListener('change', (e) => {
+          this.fontSize = parseInt(e.target.value);
+          document.getElementById('tabEditor').style.fontSize = e.target.value + 'pt';
+        });
+
+        document.getElementById('saveTab').addEventListener('click', () => this.saveTab());
+        document.getElementById('loadTab').addEventListener('click', () => this.loadTab());
+        document.getElementById('printTab').addEventListener('click', () => window.print());
+        document.getElementById('newSection').addEventListener('click', () => this.addNewSection());
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+
+          // Navigation keys
+          if (this.editMode && this.selectedChar) {
+            let handled = false;
+
+            switch (e.key.toLowerCase()) {
+              case 'arrowleft':
+              case 'a':
+                this.navigate('left');
+                handled = true;
+                break;
+              case 'arrowright':
+              case 'd':
+                this.navigate('right');
+                handled = true;
+                break;
+              case 'arrowup':
+              case 'w':
+                this.navigate('up');
+                handled = true;
+                break;
+              case 'arrowdown':
+              case 's':
+                this.navigate('down');
+                handled = true;
+                break;
             }
-            
-            // Select new character
-            this.selectedChar = charElement;
-            charElement.classList.add('editable-char');
-        }
-        
-        exitEditMode() {
-            if (this.selectedChar) {
-                this.selectedChar.classList.remove('editable-char');
-                this.selectedChar = null;
+
+            if (handled) {
+              e.preventDefault();
             }
-            this.editMode = false;
+          }
+        });
+
+        // Click handling for editable characters
+        document.getElementById('tabEditor').addEventListener('click', (e) => {
+          if (e.target.classList.contains('tab-char')) {
+            this.selectCharacter(e.target);
+            this.editMode = true;
+          } else {
+            // Click outside tab characters exits edit mode
+            this.exitEditMode();
+          }
+        });
+
+        // Click outside editor exits edit mode
+        document.addEventListener('click', (e) => {
+          if (!document.getElementById('tabEditor').contains(e.target)) {
+            this.exitEditMode();
+          }
+        });
+
+        // Character input
+        document.addEventListener('keypress', (e) => {
+          if (this.editMode && this.selectedChar && e.key.length === 1) {
+            e.preventDefault();
+            this.replaceSelectedChar(e.key);
+          }
+        });
+
+        // Escape key exits edit mode
+        document.addEventListener('keydown', (e) => {
+          if (e.key === 'Escape') {
+            this.exitEditMode();
+          }
+        });
+      }
+
+      generateDefaultTab() {
+        const editor = document.getElementById('tabEditor');
+        const tuning = this.standardTunings[this.stringCount];
+
+        editor.innerHTML = this.createTabSection('Verse 1: Enter your lyrics here', 'C        G        Am       F');
+
+        // Auto-select first tab character for immediate keyboard navigation
+        setTimeout(() => {
+          const firstTabChar = editor.querySelector('.tab-char');
+          if (firstTabChar) {
+            this.selectCharacter(firstTabChar);
+            this.editMode = true;
+          }
+        }, 100);
+      }
+
+      createTabSection(lyrics = '', chords = '') {
+        const tuning = this.standardTunings[this.stringCount];
+        let html = '<div class="tab-section">';
+
+        // Lyrics line
+        html += `<div class="lyrics-line" contenteditable="true">${lyrics}</div>`;
+
+        // Chords line  
+        html += `<div class="chord-line" contenteditable="true">${chords}</div>`;
+
+        // Tab lines
+        tuning.forEach((note, index) => {
+          const reversedIndex = tuning.length - 1 - index; // Reverse for standard display
+          const displayNote = tuning[reversedIndex];
+          html += `<div class="tab-line">`;
+          html += `<span class="string-label">${displayNote}|</span>`;
+
+          // Generate dashes for the tab line (about 60 characters to fit letter size)
+          for (let i = 0; i < 60; i++) {
+            html += `<span class="tab-char">-</span>`;
+          }
+          html += `|`;
+          html += `</div>`;
+        });
+
+        html += '</div>';
+        return html;
+      }
+
+      selectCharacter(charElement) {
+        // Clear previous selection
+        if (this.selectedChar) {
+          this.selectedChar.classList.remove('editable-char');
         }
-        
-        replaceSelectedChar(newChar) {
-            if (this.selectedChar) {
-                this.selectedChar.textContent = newChar;
-                // Keep character selected and stay in edit mode
-            }
+
+        // Select new character
+        this.selectedChar = charElement;
+        charElement.classList.add('editable-char');
+      }
+
+      exitEditMode() {
+        if (this.selectedChar) {
+          this.selectedChar.classList.remove('editable-char');
+          this.selectedChar = null;
         }
-        
-        navigate(direction) {
-            if (!this.selectedChar) return;
-            
-            const allTabChars = Array.from(document.querySelectorAll('.tab-char'));
-            const currentIndex = allTabChars.indexOf(this.selectedChar);
-            
-            if (currentIndex === -1) return;
-            
-            let targetIndex = currentIndex;
-            const tabLines = document.querySelectorAll('.tab-line');
-            const charsPerLine = Math.floor(allTabChars.length / tabLines.length);
-            
-            switch(direction) {
-                case 'left':
-                    targetIndex = Math.max(0, currentIndex - 1);
-                    break;
-                case 'right':
-                    targetIndex = Math.min(allTabChars.length - 1, currentIndex + 1);
-                    break;
-                case 'up':
-                    targetIndex = Math.max(0, currentIndex - charsPerLine);
-                    break;
-                case 'down':
-                    targetIndex = Math.min(allTabChars.length - 1, currentIndex + charsPerLine);
-                    break;
-            }
-            
-            if (targetIndex !== currentIndex && allTabChars[targetIndex]) {
-                this.selectCharacter(allTabChars[targetIndex]);
-            }
+        this.editMode = false;
+      }
+
+      replaceSelectedChar(newChar) {
+        if (this.selectedChar) {
+          this.selectedChar.textContent = newChar;
+          // Keep character selected and stay in edit mode
         }
-        
-        addNewSection() {
-            const editor = document.getElementById('tabEditor');
-            const newSection = document.createElement('div');
-            newSection.innerHTML = this.createTabSection('New section: Enter lyrics here', 'C        G        Am       F');
-            editor.appendChild(newSection);
+      }
+
+      navigate(direction) {
+        if (!this.selectedChar) return;
+
+        const allTabChars = Array.from(document.querySelectorAll('.tab-char'));
+        const currentIndex = allTabChars.indexOf(this.selectedChar);
+
+        if (currentIndex === -1) return;
+
+        let targetIndex = currentIndex;
+        const tabLines = document.querySelectorAll('.tab-line');
+        const charsPerLine = Math.floor(allTabChars.length / tabLines.length);
+
+        switch (direction) {
+          case 'left':
+            targetIndex = Math.max(0, currentIndex - 1);
+            break;
+          case 'right':
+            targetIndex = Math.min(allTabChars.length - 1, currentIndex + 1);
+            break;
+          case 'up':
+            targetIndex = Math.max(0, currentIndex - charsPerLine);
+            break;
+          case 'down':
+            targetIndex = Math.min(allTabChars.length - 1, currentIndex + charsPerLine);
+            break;
         }
-        
-        saveTab() {
-            const content = document.getElementById('tabEditor').innerHTML;
-            const tabName = prompt('Enter tab name:', 'My Tab');
-            if (tabName) {
-                this.tabs[tabName] = content;
-                alert(`Tab "${tabName}" saved!`);
-            }
+
+        if (targetIndex !== currentIndex && allTabChars[targetIndex]) {
+          this.selectCharacter(allTabChars[targetIndex]);
         }
-        
-        loadTab() {
-            const tabNames = Object.keys(this.tabs);
-            if (tabNames.length === 0) {
-                alert('No saved tabs found.');
-                return;
-            }
-            
-            const tabName = prompt(`Enter tab name to load:\nAvailable: ${tabNames.join(', ')}`);
-            if (tabName && this.tabs[tabName]) {
-                document.getElementById('tabEditor').innerHTML = this.tabs[tabName];
-                alert(`Tab "${tabName}" loaded!`);
-            } else if (tabName) {
-                alert('Tab not found.');
-            }
+      }
+
+      addNewSection() {
+        const editor = document.getElementById('tabEditor');
+        const newSection = document.createElement('div');
+        newSection.innerHTML = this.createTabSection('New section: Enter lyrics here', 'C        G        Am       F');
+        editor.appendChild(newSection);
+      }
+
+      saveTab() {
+        const content = document.getElementById('tabEditor').innerHTML;
+        const tabName = prompt('Enter tab name:', 'My Tab');
+        if (tabName) {
+          this.tabs[tabName] = content;
+          alert(`Tab "${tabName}" saved!`);
         }
+      }
+
+      loadTab() {
+        const tabNames = Object.keys(this.tabs);
+        if (tabNames.length === 0) {
+          alert('No saved tabs found.');
+          return;
+        }
+
+        const tabName = prompt(`Enter tab name to load:\nAvailable: ${tabNames.join(', ')}`);
+        if (tabName && this.tabs[tabName]) {
+          document.getElementById('tabEditor').innerHTML = this.tabs[tabName];
+          alert(`Tab "${tabName}" loaded!`);
+        } else if (tabName) {
+          alert('Tab not found.');
+        }
+      }
     }
-    
+
     // Initialize the app
     new GuitarTabber();
-</script>
+  </script>
 
 
 </body>
+
 </html>
