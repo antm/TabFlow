@@ -45,8 +45,8 @@
 
 </head>
 
-<body class="m-0 bg-gray-100">
-  <div class="app-container mx-auto bg-white shadow-lg  overflow-hidden">
+<body class="m-0 bg-slate-50">
+  <div class="app-container mx-auto bg-neutral-100 shadow-lg  overflow-hidden">
     <div
       class="toolbar no-print p-8 bg-slate-700 text-white flex gap-4 items-center flex-wrap">
       <h1 class="m-0 text-xl text-white font-bold">TabFlow</h1>
@@ -81,9 +81,7 @@
             class="p-2 px-4 rounded bg-slate-800 hover:bg-slate-900 text-slate-100 font-bold cursor-pointer ">Load</button>
           <button id="printTab"
             class="p-2 px-4 rounded bg-slate-800 hover:bg-slate-900 text-slate-100 font-bold cursor-pointer ">Print</button>
-          <button id="newSection"
-            class="p-2 px-4 rounded bg-slate-800 hover:bg-slate-900 text-slate-100 font-bold cursor-pointer ">New
-            Section</button>
+          
         </div>
       </div>
 
@@ -93,9 +91,14 @@
     </div>
 
     <div
-      class="tab-editor p-24 px-4 min-h-[500px] max-w-[8.5in] font-mono break-words mx-auto"
+      class="tab-editor pt-24 p-4 max-w-[8.5in] font-mono break-words mx-auto text-center"
       id="tabEditor">
       <!-- Tab content will be generated here -->
+    </div>
+    <div class="text-center p-8">
+      <button id="newSection"
+        class="p-2 px-4 rounded bg-slate-800 hover:bg-slate-900 text-slate-100 font-bold cursor-pointer ">New
+        Section</button>
     </div>
   </div>
 
