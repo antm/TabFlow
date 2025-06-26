@@ -45,50 +45,49 @@
 
 </head>
 
-<body class="font-sans m-0 p-5 bg-gray-100">
-  <div class="app-container mx-auto bg-white shadow-lg rounded overflow-hidden">
+<body class="m-0 bg-gray-100">
+  <div class="app-container mx-auto bg-white shadow-lg  overflow-hidden">
     <div
-      class="toolbar no-print p-4 px-5 bg-slate-700 text-white flex gap-4 items-center flex-wrap">
-      <h1 class="m-0 text-2xl text-white">TabFlow</h1>
+      class="toolbar no-print p-8 bg-slate-700 text-white flex gap-4 items-center flex-wrap">
+      <h1 class="m-0 text-xl text-white font-bold">TabFlow</h1>
 
+      <div class="mx-auto flex flex-wrap gap-4 justify-between">
+        
+        <div class="toolbar-group flex gap-2.5 items-center">
+          <!-- <label for="stringCount" class="font-bold">Strings:</label> -->
+          <select id="stringCount"
+            class="p-2 px-4 bg-slate-300 rounded cursor-pointer text-slate-700 font-bold">
+            <option value="4">Strings: 4</option>
+            <option value="5">Strings: 5</option>
+            <option value="6" selected>Strings: 6</option>
+            <option value="7">Strings: 7</option>
+            <option value="8">Strings: 8</option>
+          </select>
+          <!-- <label for="fontSize" class="font-bold">Font Size:</label> -->
+          <select id="fontSize"
+            class="p-2 px-4 bg-slate-300 rounded cursor-pointer text-slate-700 font-bold">
+            <option value="10">Font Size: 10pt</option>
+            <option value="12" selected>Font Size: 12pt</option>
+            <option value="14">Font Size: 14pt</option>
+            <option value="16">Font Size: 16pt</option>
+            <option value="18">Font Size: 18pt</option>
+          </select>
+        </div>
 
-      <div class="toolbar-group flex gap-2.5 items-center">
-        <label for="stringCount" class="font-bold">Strings:</label>
-        <select id="stringCount"
-          class="py-1 px-2.5 border-none rounded bg-white cursor-pointer text-black">
-          <option value="4">4 (Bass)</option>
-          <option value="5">5 (Bass)</option>
-          <option value="6" selected>6 (Guitar)</option>
-          <option value="7">7 (Guitar)</option>
-          <option value="8">8 (Guitar)</option>
-        </select>
+        <div class="toolbar-group flex gap-2.5 items-center">
+          <button id="saveTab"
+            class="p-2 px-4 rounded bg-slate-800 hover:bg-slate-900 text-slate-100 font-bold cursor-pointer ">Save</button>
+          <button id="loadTab"
+            class="p-2 px-4 rounded bg-slate-800 hover:bg-slate-900 text-slate-100 font-bold cursor-pointer ">Load</button>
+          <button id="printTab"
+            class="p-2 px-4 rounded bg-slate-800 hover:bg-slate-900 text-slate-100 font-bold cursor-pointer ">Print</button>
+          <button id="newSection"
+            class="p-2 px-4 rounded bg-slate-800 hover:bg-slate-900 text-slate-100 font-bold cursor-pointer ">New
+            Section</button>
+        </div>
       </div>
 
-      <div class="toolbar-group flex gap-2.5 items-center">
-        <label for="fontSize" class="font-bold">Font Size:</label>
-        <select id="fontSize"
-          class="py-1 px-2.5 border-none rounded bg-white cursor-pointer text-black">
-          <option value="10">10pt</option>
-          <option value="12" selected>12pt</option>
-          <option value="14">14pt</option>
-          <option value="16">16pt</option>
-          <option value="18">18pt</option>
-        </select>
-      </div>
-
-      <div class="toolbar-group flex gap-2.5 items-center">
-        <button id="saveTab"
-          class="py-1 px-2.5 border-none rounded bg-blue-500 text-white font-bold cursor-pointer hover:bg-blue-600">Save</button>
-        <button id="loadTab"
-          class="py-1 px-2.5 border-none rounded bg-blue-500 text-white font-bold cursor-pointer hover:bg-blue-600">Load</button>
-        <button id="printTab"
-          class="py-1 px-2.5 border-none rounded bg-blue-500 text-white font-bold cursor-pointer hover:bg-blue-600">Print</button>
-        <button id="newSection"
-          class="py-1 px-2.5 border-none rounded bg-blue-500 text-white font-bold cursor-pointer hover:bg-blue-600">New
-          Section</button>
-      </div>
-
-      <div class="toolbar-group flex gap-2.5 items-center">
+      <div class="toolbar-group lg:flex lg:gap-2.5 lg:items-center ms-auto hidden">
         <small class="text-gray-300">Navigate: ↑↓←→ | Exit: Esc</small>
       </div>
     </div>
@@ -232,13 +231,13 @@
         html += `<div class="text-slate-700 mb-1 min-h-[1.2em] cursor-text" contenteditable="true">${lyrics}</div>`;
 
         // Chords line  
-        html += `<div class="text-red-600 font mb-1 min-h-[1.2em] cursor-text" contenteditable="true">${chords}</div>`;
+        html += `<div class="text-red-700 font mb-1 min-h-[1.2em] cursor-text" contenteditable="true">${chords}</div>`;
 
         // Tab lines
         tuning.forEach((note, index) => {
           const reversedIndex = tuning.length - 1 - index; // Reverse for standard display
           const displayNote = tuning[reversedIndex];
-          html += `<div class="tabline text-slate-600 mb-0.5 cursor-text min-h-[1.2em]">`;
+          html += `<div class="tabline text-slate-700 mb-0.5 cursor-text min-h-[1.2em]">`;
           html += `<span class="text-gray-500 mr-1">${displayNote}|</span>`;
 
           // Generate dashes for the tab line (about 60 characters to fit letter size)
